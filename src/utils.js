@@ -13,6 +13,8 @@ const HOUR_IN_DAY = 24;
 const MSEC_IN_HOUR = MIN_IN_HOUR * SEC_IN_MIN * MSEC_IN_SEC;
 const MSEC_IN_DAY = HOUR_IN_DAY * MSEC_IN_HOUR;
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 function getRandomInteger (min, max) {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
@@ -64,5 +66,6 @@ export {
   formatStringToShortDate,
   formatStringToTime,
   capitalize,
-  getPointDuration
+  getPointDuration,
+  isEscapeKey
 };
