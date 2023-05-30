@@ -2,7 +2,7 @@ import EditFormView from '../view/edit-form-view.js';
 import ListView from '../view/list-view.js';
 import RoutePointView from '../view/route-point-view.js';
 import { render, replace } from '../framework/render.js';
-
+import { isEscapeKey } from '../utils.js';
 export default class BoardPresenter {
   #listComponent = new ListView();
   #boardContainer = null;
@@ -43,7 +43,7 @@ export default class BoardPresenter {
     });
 
     const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
+      if (isEscapeKey(evt)) {
         evt.preventDefault();
         replaceFormToPoint();
         document.removeEventListener('keydown', escKeyDownHandler);
