@@ -69,7 +69,7 @@ export default class RoutePointView extends AbstractView {
     this.#onEditClick = onEditClick;
 
     this.element
-      .querySelector('event__rollup-btn')
+      .querySelector('.event__rollup-btn')
       .addEventListener('click', this.#editClickHandler);
   }
 

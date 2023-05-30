@@ -22,11 +22,7 @@ export default class BoardPresenter {
   init() {
     render(this.#listComponent, this.#boardContainer);
     this.#points.forEach((point) => {
-      this.#renderPoint({
-        point,
-        pointDestinations: this.#destinationsModel.getById(point.destination),
-        pointOffers: this.#offersModel.getByType(point.type)
-      });
+      this.#renderPoint(point);
     });
   }
 
@@ -39,7 +35,7 @@ export default class BoardPresenter {
     });
 
     const pointEditComponent = new EditFormView ({
-      point: this.#points[0],
+      point,
       pointDestinations: this.#destinationsModel.destinations,
       pointOffers: this.#offersModel.offers,
       onCloseClick: CloseButtonClickHandler,
@@ -47,7 +43,7 @@ export default class BoardPresenter {
     });
 
     const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
         replaceFormToPoint();
         document.removeEventListener('keydown', escKeyDownHandler);
@@ -56,7 +52,7 @@ export default class BoardPresenter {
 
     function pointEditClickHandler () {
       replacePointToForm();
-      document.removeEventListener('keydown', escKeyDownHandler);
+      document.addEventListener('keydown', escKeyDownHandler);
     }
 
     function CloseButtonClickHandler () {
@@ -69,11 +65,11 @@ export default class BoardPresenter {
     }
 
     function replaceFormToPoint () {
-      replace (pointEditComponent, pointComponent);
+      replace(pointComponent, pointEditComponent);
     }
 
     function replacePointToForm () {
-      replace(pointComponent, pointEditComponent);
+      replace (pointEditComponent, pointComponent);
     }
 
     render(pointComponent, this.#listComponent.element);
