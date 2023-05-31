@@ -13,19 +13,6 @@ const HOUR_IN_DAY = 24;
 const MSEC_IN_HOUR = MIN_IN_HOUR * SEC_IN_MIN * MSEC_IN_SEC;
 const MSEC_IN_DAY = HOUR_IN_DAY * MSEC_IN_HOUR;
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
-function getRandomInteger (min, max) {
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-}
-
-function getRandomValue (items) {
-  return items[getRandomInteger(0, items.length - 1)];
-}
-
 function formatStringToDateTime (date) {
   return dayjs(date).format('YYYY-MM-DDTHH:mm');
 }
@@ -59,13 +46,31 @@ function getPointDuration (dateFrom, dateTo) {
   return pointDuration;
 }
 
+function getSheduleDate(date) {
+  return dayjs(date).format('DD/MM/YY HH:mm');
+}
+
+function isPointFuture(point) {
+  return dayjs().isBefore(point.dateFrom);
+}
+
+function isPointPresent (point) {
+  return (dayjs().isAfter(point.dateFrom) && dayjs().isBefore(point.dateTo));
+}
+
+function isPointPast(point) {
+  return dayjs().isAfter(point.dateTo);
+}
+
 export {
-  getRandomInteger,
-  getRandomValue,
   formatStringToDateTime,
   formatStringToShortDate,
   formatStringToTime,
   capitalize,
   getPointDuration,
-  isEscapeKey
+  getSheduleDate,
+  isPointFuture,
+  isPointPresent,
+  isPointPast
 };
+
