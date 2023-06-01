@@ -1,8 +1,9 @@
 import EditFormView from '../view/edit-form-view.js';
 import ListView from '../view/list-view.js';
 import RoutePointView from '../view/route-point-view.js';
+import ListEmptyView from '../view/list-empty-view.js';
 import { render, replace } from '../framework/render.js';
-import { isEscapeKey } from '../utils.js';
+import { isEscapeKey } from '../utils/common.js';
 export default class BoardPresenter {
   #listComponent = new ListView();
   #boardContainer = null;
@@ -20,10 +21,14 @@ export default class BoardPresenter {
   }
 
   init() {
-    render(this.#listComponent, this.#boardContainer);
-    this.#points.forEach((point) => {
-      this.#renderPoint(point);
-    });
+    if (this.#points.length > 0) {
+      render(this.#listComponent, this.#boardContainer);
+      this.#points.forEach((point) => {
+        this.#renderPoint(point);
+      });
+    } else {
+      render (new ListEmptyView, this.#boardContainer);
+    }
   }
 
   #renderPoint (point) {

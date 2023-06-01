@@ -1,13 +1,14 @@
-import FiltersView from './view/filters-view.js';
 import SortView from './view/sort-view.js';
 import TripInfoView from './view/trip-info-view.js';
 import {render, RenderPosition} from './framework/render.js';
 import BoardPresenter from './presenter/board-presenter.js';
+import FilterPresenter from './presenter/filter-presenter.js';
 
 import MockService from './service/mock-service.js';
 import DestinationsModel from './model/destination-model.js';
 import OffersModel from './model/offers-model.js';
 import PointsModel from './model/point-model.js';
+
 
 const filtersMainElement = document.querySelector('.trip-controls__filters');
 const tripMainElement = document.querySelector('.trip-main');
@@ -18,6 +19,11 @@ const destinationsModel = new DestinationsModel(mockService);
 const offersModel = new OffersModel(mockService);
 const pointsModel = new PointsModel(mockService);
 
+const filterPresenter = new FilterPresenter ({
+  container: filtersMainElement,
+  pointsModel
+});
+
 const boardPresenter = new BoardPresenter({
   boardContainer : tripEventElement,
   destinationsModel,
@@ -26,7 +32,7 @@ const boardPresenter = new BoardPresenter({
 });
 
 render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
-render(new FiltersView(), filtersMainElement);
 render(new SortView(), tripEventElement);
 
+filterPresenter.init();
 boardPresenter.init();
