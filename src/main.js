@@ -1,4 +1,3 @@
-import SortView from './view/sort-view.js';
 import TripInfoView from './view/trip-info-view.js';
 import {render, RenderPosition} from './framework/render.js';
 import BoardPresenter from './presenter/board-presenter.js';
@@ -32,7 +31,6 @@ const boardPresenter = new BoardPresenter({
 });
 
 render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
-render(new SortView(), tripEventElement);
 
 filterPresenter.init();
 boardPresenter.init();
