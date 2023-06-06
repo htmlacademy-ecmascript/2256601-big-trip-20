@@ -62,7 +62,7 @@ function isPointPast(point) {
   return dayjs().isAfter(point.dateTo);
 }
 
-function updatePoint (points, update) {
+function updateItem (points, update) {
   return points.map((point) => point.id === update.id ? update : point);
 }
 
@@ -76,6 +76,6 @@ export {
   isPointFuture,
   isPointPresent,
   isPointPast,
-  updatePoint,
+  updateItem,
 };
 

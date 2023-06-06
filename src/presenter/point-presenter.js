@@ -6,27 +6,32 @@ import { isEscapeKey } from '../utils/common.js';
 
 export default class PointPresenter {
   #container = null;
+
   #destinationsModel = null;
   #offersModel = null;
-  #changeData = null;
-  #changeMode = null;
+
+  #onChangeData = null;
+  #onChangeMode = null;
+
   #pointComponent = null;
   #pointEditComponent = null;
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor ({container, destinationsModel, offersModel, changeData, changeMode}) {
+  constructor ({container, destinationsModel, offersModel, onChangeData, onChangeMode}) {
     this.#container = container;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
-    this.#changeData = changeData;
-    this.#changeMode = changeMode;
+    this.#onChangeData = onChangeData;
+    this.#onChangeMode = onChangeMode;
   }
 
   init (point) {
     this.#point = point;
+
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
+
     this.#pointComponent = new RoutePointView ({
       point: this.#point,
       pointDestinations: this.#destinationsModel.getById(point.destination),
@@ -74,7 +79,7 @@ export default class PointPresenter {
   #replacePointToForm = () => {
     replace (this.#pointEditComponent, this.#pointComponent);
     document.addEventListener('keydown', this.#escKeyDownHandler);
-    this.#changeMode();
+    this.#onChangeMode();
     this.#mode = Mode.EDITING;
   };
 
@@ -97,7 +102,7 @@ export default class PointPresenter {
   };
 
   #favoriteClickHandler = () => {
-    this.#changeData ({
+    this.#onChangeData ({
       ...this.#point,
       isFavorite: !this.#point.isFavorite
     });
@@ -108,7 +113,7 @@ export default class PointPresenter {
   };
 
   #formSubmitHandler = (point) => {
-    this.#changeData(point);
+    this.#onChangeData(point);
     this.#replaceFormToPoint();
   };
 }

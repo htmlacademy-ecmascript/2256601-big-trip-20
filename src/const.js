@@ -40,8 +40,10 @@ const Mode = {
 
 const SortType = {
   DAY: 'day',
+  EVENT: 'event',
   TIME: 'time',
   PRICE: 'price',
+  OFFER: 'offer',
 };
 
 export {OFFER_COUNT, DESTINATION_COUNT, POINT_COUNT, TYPES, DEFAULT_TYPE, POINT_EMPTY, FilterType, Mode, SortType};
