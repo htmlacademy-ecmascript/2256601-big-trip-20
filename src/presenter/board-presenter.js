@@ -4,8 +4,8 @@ import SortsView from '../view/sort-view.js';
 import { render, remove, replace } from '../framework/render.js';
 import { updateItem } from '../utils/point-utils.js';
 import { SortType } from '../const.js';
-import PointPresenter from './point-presenter.js';
 import { sort } from '../utils/sort-utils.js';
+import PointPresenter from './point-presenter.js';
 export default class BoardPresenter {
   #boardContainer = null;
 
