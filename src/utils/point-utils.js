@@ -62,6 +62,10 @@ function isPointPast(point) {
   return dayjs().isAfter(point.dateTo);
 }
 
+function updateItem (points, update) {
+  return points.map((point) => point.id === update.id ? update : point);
+}
+
 export {
   formatStringToDateTime,
   formatStringToShortDate,
@@ -71,6 +75,7 @@ export {
   getSheduleDate,
   isPointFuture,
   isPointPresent,
-  isPointPast
+  isPointPast,
+  updateItem,
 };
 
