@@ -93,7 +93,6 @@ export default class PointPresenter {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       this.#replaceFormToPoint();
-      document.removeEventListener('keydown', this.#escKeyDownHandler);
     }
   };
 

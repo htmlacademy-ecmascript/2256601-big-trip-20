@@ -166,7 +166,6 @@ export default class EditFormView extends AbstractStatefulView {
     this.#pointOffers = pointOffers;
 
     this._setState(EditFormView.parsePointToState({point}));
-
     this.#onFormSubmit = onFormSubmit;
     this.#onCloseEditClick = onCloseClick;
 
@@ -208,7 +207,7 @@ export default class EditFormView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#onFormSubmit(EditFormView.parsePointToState(this._state));
+    this.#onFormSubmit(EditFormView.parseStateToPoint(this._state));
   };
 
   #closeEditClickHandler = (evt) => {
@@ -265,14 +264,9 @@ export default class EditFormView extends AbstractStatefulView {
     });
   };
 
-  static parsePointToState (point) {
-    return {...point};
-  }
+  static parsePointToState = ({point}) => ({point});
 
-  static parseStateToPoint (state) {
-    const point = {...state};
-    return point;
-  }
+  static parseStateToPoint = (state) => state.point;
 }
 
 
