@@ -26,6 +26,8 @@ const POINT_EMPTY = {
   type: DEFAULT_TYPE
 };
 
+const DATE_FORMAT = 'DD/MM/YY HH:mm';
+
 const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
@@ -46,4 +48,4 @@ const SortType = {
   OFFER: 'offer',
 };
 
-export {OFFER_COUNT, DESTINATION_COUNT, POINT_COUNT, TYPES, DEFAULT_TYPE, POINT_EMPTY, FilterType, Mode, SortType};
+export {OFFER_COUNT, DESTINATION_COUNT, POINT_COUNT, TYPES, DEFAULT_TYPE, POINT_EMPTY, DATE_FORMAT, FilterType, Mode, SortType};
