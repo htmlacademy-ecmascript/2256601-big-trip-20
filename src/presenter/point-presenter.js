@@ -28,14 +28,13 @@ export default class PointPresenter {
 
   init (point) {
     this.#point = point;
-
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
 
     this.#pointComponent = new RoutePointView ({
       point: this.#point,
-      pointDestinations: this.#destinationsModel.getById(point.destination),
-      pointOffers: this.#offersModel.getByType(point.type),
+      pointDestinations: this.#destinationsModel.getById(this.#point.destination),
+      pointOffers: this.#offersModel.getByType(this.#point.type).filter((offer) => this.#point.offers.includes(offer.id)),
       onEditClick: this.#pointEditClickHandler,
       onFavoriteClick: this.#favoriteClickHandler,
     });
@@ -67,6 +66,7 @@ export default class PointPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
+      this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToPoint();
     }
   };
@@ -92,6 +92,7 @@ export default class PointPresenter {
   #escKeyDownHandler = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
+      this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToPoint();
     }
   };
@@ -108,6 +109,7 @@ export default class PointPresenter {
   };
 
   #closeButtonClickHandler = () => {
+    this.#pointEditComponent.reset(this.#point);
     this.#replaceFormToPoint();
   };
 

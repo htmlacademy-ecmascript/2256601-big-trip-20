@@ -54,7 +54,7 @@ function createDestinationsTemplate (point, pointDestinations, type) {
 
 function createOffersTemplate(point, offers) {
   const offersByType = offers.find((offer) => offer.type === point.type).offers;
-  const offersByIds = [...offersByType.filter((offer) => point.offers.find((id) => offer.id === id))];
+  const offersByIds = [...offersByType.filter((offer) => point.offers.includes(offer.id))];
   return (`
   <section class="event__section  event__section--offers">
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
@@ -66,8 +66,8 @@ function createOffersTemplate(point, offers) {
       data-offer-id="${id}"
       id="event-offer-${id}"
       type="checkbox"
-      name="event-offer-${id}"
-      ${offersByIds.find((offer) => id === offer.id) ? 'checked' : ''}>
+      name="event-offer-${point.type}"
+      ${offersByIds.includes(id) ? 'checked' : ''}>
         <label class="event__offer-label" for="event-offer-${id}">
           <span class="event__offer-title">${title}</span>
           &plus;&euro;&nbsp;
@@ -197,7 +197,10 @@ export default class EditFormView extends AbstractStatefulView {
     }
   }
 
-  reset = (point) => this.updateElement({point});
+  reset (point) {
+    this.updateElement(
+      EditFormView.parsePointToState({point}));
+  }
 
   _restoreHandlers = () => {
     this.element
