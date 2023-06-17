@@ -3,25 +3,25 @@ import { render, replace, remove } from '../framework/render.js';
 import { filter } from '../utils/filter-utils';
 import { UpdateType, FilterType } from '../const';
 export default class FilterPresenter {
-  #filterContainer = null;
+  #container = null;
   #filtersModel = null;
   #pointsModel = null;
-  #filterComponent;
+  #filterComponent = null;
 
-  constructor ({filterContainer, filterModel, pointsModel}) {
-    this.#filterContainer = filterContainer;
+  constructor ({container, filterModel, pointsModel}) {
+    this.#container = container;
     this.#filtersModel = filterModel;
     this.#pointsModel = pointsModel;
 
-    this.#pointsModel.addObserver(this.#onModelEvent);
-    this.#filtersModel.addObserver(this.#onModelEvent);
+    this.#pointsModel.addObserver(this.#onModelEventHandler);
+    this.#filtersModel.addObserver(this.#onModelEventHandler);
   }
 
   get getFilterData() {
     const points = this.#pointsModel.points;
     return Object.values(FilterType).map((type) => ({
       type,
-      count: filter[type](points).length
+      count: filter[type](points).length > 0
     }));
   }
 
@@ -36,14 +36,14 @@ export default class FilterPresenter {
     });
 
     if (prevFilterComponent === null) {
-      render(this.#filterComponent, this.#filterContainer);
+      render(this.#filterComponent, this.#container);
       return;
     }
     replace(this.#filterComponent, prevFilterComponent);
     remove(prevFilterComponent);
   }
 
-  #onModelEvent = () => {
+  #onModelEventHandler = () => {
     this.init();
   };
 

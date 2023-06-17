@@ -12,7 +12,7 @@ export default class BoardPresenter {
   #boardContainer = null;
 
   #sortComponent = null;
-  #listComponent = null;
+  #listComponent = new ListView();
   #listEmptyComponent = null;
   #destinationsModel = null;
   #offersModel = null;
@@ -35,9 +35,9 @@ export default class BoardPresenter {
     this.#pointsModel = pointsModel;
     this.#filtersModel = filterModel;
     this.#newPointButtonContainer = newPointButtonContainer;
-    this.#points = sort[SortType.DAY]([...this.#pointsModel.points]);
+    this.#points = sort[this.#currentSortType](this.#pointsModel.points);
     this.#addNewPointPresenter = new AddNewPointPresenter ({
-      listComponent: this.#listComponent,
+      container: this.#listComponent.element,
       onDataChange: this.#pointChangeHandler,
       onDestroy: this.#newPointDestroyHandler,
       destinationsModel: this.#destinationsModel,
@@ -49,8 +49,8 @@ export default class BoardPresenter {
 
   get points() {
     this.#filterType = this.#filtersModel.filter;
-    const filteredPoints = filter[this.#filterType](this.#points);
-    return filteredPoints;
+    const filteredPoints = filter[this.#filterType](this.#points.points);
+    return sort[this.#currentSortType](filteredPoints);
   }
 
   init() {
@@ -62,7 +62,6 @@ export default class BoardPresenter {
   }
 
   #renderBoard = () => {
-    render(this.#listComponent, this.#boardContainer);
     if (this.#points.length === 0) {
       this.#renderListEmpty();
       return;
@@ -81,7 +80,7 @@ export default class BoardPresenter {
 
   #sortPoints = (sortType) => {
     this.#currentSortType = sortType;
-    this.#points = sort[this.#currentSortType](this.#points);
+    this.#points = sort[this.#currentSortType](this.#pointsModel.points);
   };
 
   #renderPoints = () => {
@@ -100,15 +99,12 @@ export default class BoardPresenter {
     this.#pointPresenters.set(point.id, pointPresenter);
   };
 
-  #clearBoard = ({resetSortType = false} = {}) => {
+  #clearBoard = (resetSortType = false) => {
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
     this.#addNewPointPresenter.destroy();
-    remove (this.#sortComponent);
+    remove (this.#listEmptyComponent);
 
-    if (this.#listEmptyComponent) {
-      remove(this.#listComponent);
-    }
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
     }
@@ -129,7 +125,6 @@ export default class BoardPresenter {
   };
 
   #renderListContainer = () => {
-    this.#listComponent = new ListView();
     render(this.#listComponent, this.#boardContainer);
   };
 
@@ -137,13 +132,13 @@ export default class BoardPresenter {
   #pointChangeHandler = (actionType, updateType, update) => {
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this.#pointsModel(updateType, update);
+        this.#pointsModel.update(updateType, update);
         break;
       case UserAction.ADD_POINT:
         this.#pointsModel.add(updateType, update);
         break;
       case UserAction.DELETE_POINT:
-        this.#pointsModel.add(updateType, update);
+        this.#pointsModel.delete(updateType, update);
         break;
     }
   };
@@ -163,7 +158,7 @@ export default class BoardPresenter {
   #onModelEventHandler = (updateType, data) => {
     switch (updateType) {
       case UpdateType.PATCH:
-        this.#pointPresenters.get(data.id).init(data);
+        this.#pointPresenters.get(data.id)?.init(data);
         break;
       case UpdateType.MINOR:
         this.#clearBoard();
@@ -179,7 +174,7 @@ export default class BoardPresenter {
   #newPointButtonClickHandler = () => {
     this.#isCreating = true;
     this.#currentSortType = SortType.DAY;
-    this.#filtersModel.set(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this.#filtersModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
     this.#newPointButtonComponent.setDisabled(true);
     this.#addNewPointPresenter.init();
   };

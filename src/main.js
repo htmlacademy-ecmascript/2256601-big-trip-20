@@ -9,9 +9,12 @@ import OffersModel from './model/offers-model.js';
 import PointsModel from './model/point-model.js';
 import FiltersModel from './model/filters-model.js';
 
-const filtersMainElement = document.querySelector('.trip-controls__filters');
-const tripMainElement = document.querySelector('.trip-main');
-const tripEventElement = document.querySelector('.trip-events');
+const bodyElement = document.querySelector('body');
+const headerElement = bodyElement.querySelector('.page-header');
+const mainElement = bodyElement.querySelector('.page-main');
+const tripMainElement = headerElement.querySelector('.trip-main');
+const filtersMainElement = tripMainElement.querySelector('.trip-controls__filters');
+const tripEventElement = mainElement.querySelector('.trip-events');
 
 const mockService = new MockService();
 const destinationsModel = new DestinationsModel(mockService);
@@ -31,6 +34,7 @@ const boardPresenter = new BoardPresenter({
   offersModel,
   pointsModel,
   filterModel: filtersModel,
+  newPointButtonContainer: tripMainElement,
 });
 
 render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);

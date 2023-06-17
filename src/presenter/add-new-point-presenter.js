@@ -4,7 +4,7 @@ import { UserAction, UpdateType, EditType } from '../const.js';
 import { isEscapeKey } from '../utils/common.js';
 
 export default class AddNewPointPresenter {
-  #listComponent = null;
+  #container = null;
   #onDataChange = null;
   #onDestroy = null;
   #destinationsModel = null;
@@ -12,8 +12,8 @@ export default class AddNewPointPresenter {
 
   #pointEditComponent = null;
 
-  constructor ({listComponent, onDataChange, onDestroy, destinationsModel, offersModel}) {
-    this.#listComponent = listComponent;
+  constructor ({container, onDataChange, onDestroy, destinationsModel, offersModel}) {
+    this.#container = container;
     this.#onDataChange = onDataChange;
     this.#onDestroy = onDestroy;
     this.#destinationsModel = destinationsModel;
@@ -32,7 +32,7 @@ export default class AddNewPointPresenter {
       onDeleteClick: this.#onDeleteClick,
       type: EditType.CREATING
     });
-    render(this.#pointEditComponent, this.#listComponent, RenderPosition.AFTERBEGIN);
+    render(this.#pointEditComponent, this.#container, RenderPosition.AFTERBEGIN);
     document.addEventListener('keydown', this.#escKeyDownHandler);
   }
 
@@ -50,7 +50,10 @@ export default class AddNewPointPresenter {
     this.#onDataChange (
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      {id: crypto.randomUUID(), ...point},
+      {
+        id: crypto.randomUUID(),
+        ...point
+      },
     );
     this.destroy();
   };
