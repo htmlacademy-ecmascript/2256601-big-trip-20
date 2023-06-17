@@ -38,4 +38,8 @@ const sort = {
   }
 };
 
-export {sortByTime, sortByPrice, sortByDay, sort};
+function getDateDiff(dateOne, dateTwo) {
+  return dayjs(dateOne).unix() - dayjs(dateTwo).unix();
+}
+
+export {sortByTime, sortByPrice, sortByDay, sort, getDateDiff};

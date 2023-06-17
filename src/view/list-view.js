@@ -1,4 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
+
 function createListTemplate () {
   return (
     /*html*/`
@@ -6,7 +7,6 @@ function createListTemplate () {
     `
   );
 }
-
 export default class ListView extends AbstractView {
   get template() {
     return createListTemplate();

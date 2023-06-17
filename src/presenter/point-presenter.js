@@ -1,9 +1,9 @@
 import EditFormView from '../view/edit-form-view.js';
 import RoutePointView from '../view/route-point-view.js';
-import { Mode } from '../const.js';
+import { Mode, UserAction, UpdateType} from '../const.js';
 import { remove, render, replace } from '../framework/render.js';
 import { isEscapeKey } from '../utils/common.js';
-
+import { isPatchUpdate } from '../utils/point-utils.js';
 export default class PointPresenter {
   #container = null;
 
@@ -44,7 +44,8 @@ export default class PointPresenter {
       pointDestinations: this.#destinationsModel.destinations,
       pointOffers: this.#offersModel.offers,
       onCloseClick: this.#closeButtonClickHandler,
-      onFormSubmit: this.#formSubmitHandler
+      onFormSubmit: this.#formSubmitHandler,
+      onDeleteClick: this.#onDeleteClick,
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
@@ -113,8 +114,21 @@ export default class PointPresenter {
     this.#replaceFormToPoint();
   };
 
-  #formSubmitHandler = (point) => {
-    this.#onChangeData(point);
+  #formSubmitHandler = (update) => {
+    const updateType = isPatchUpdate(this.#point, update) ? UpdateType.PATCH : UpdateType.MINOR;
+    this.#onChangeData(
+      UserAction.UPDATE_POINT,
+      updateType,
+      update,
+    );
     this.#replaceFormToPoint();
+  };
+
+  #onDeleteClick = (point) => {
+    this.#onChangeData(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
   };
 }

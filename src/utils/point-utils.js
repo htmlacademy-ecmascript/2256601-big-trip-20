@@ -70,6 +70,11 @@ function updateItem (points, update) {
   return points.map((point) => point.id === update.id ? update : point);
 }
 
+const isPatchUpdate = (point, update) => (
+  dayjs(point.dateFrom).isSame(dayjs(update.dateFrom)) &&
+  dayjs(point.dateTo).isSame(dayjs(update.dateTo))
+);
+
 export {
   humanizeDate,
   formatStringToDateTime,
@@ -82,5 +87,6 @@ export {
   isPointPresent,
   isPointPast,
   updateItem,
+  isPatchUpdate,
 };
 
