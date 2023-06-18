@@ -5,8 +5,10 @@ import { isEscapeKey } from '../utils/common.js';
 
 export default class AddNewPointPresenter {
   #container = null;
+
   #onDataChange = null;
   #onDestroy = null;
+
   #destinationsModel = null;
   #offersModel = null;
 
@@ -52,7 +54,7 @@ export default class AddNewPointPresenter {
       UpdateType.MINOR,
       {
         id: crypto.randomUUID(),
-        ...point
+        ...point,
       },
     );
     this.destroy();
