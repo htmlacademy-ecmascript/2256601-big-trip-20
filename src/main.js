@@ -25,7 +25,7 @@ const boardPresenter = new BoardPresenter({
   destinationsModel,
   offersModel,
   pointsModel,
-  filterModel: filtersModel,
+  filtersModel,
 });
 
 boardPresenter.init();

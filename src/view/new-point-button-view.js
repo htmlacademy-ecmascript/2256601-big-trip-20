@@ -23,10 +23,4 @@ export default class NewPointButtonView extends AbstractView {
     evt.preventDefault();
     this.#onClick();
   };
-  console.log('удалить');
-  /*
-  setDisabled(bool) {
-    this.element.desabled = bool;
-  }
-  */
 }

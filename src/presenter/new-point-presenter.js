@@ -9,17 +9,17 @@ export default class NewPointPresenter {
   #onDataChange = null;
   #onDestroy = null;
 
-  #destinationsModel = null;
-  #offersModel = null;
+  #destinations = null;
+  #offers = null;
 
   #pointNewComponent = null;
 
-  constructor ({container, onDataChange, onDestroy, destinationsModel, offersModel}) {
+  constructor ({container, onDataChange, onDestroy, destinations, offers}) {
     this.#container = container;
     this.#onDataChange = onDataChange;
     this.#onDestroy = onDestroy;
-    this.#destinationsModel = destinationsModel;
-    this.#offersModel = offersModel;
+    this.#destinations = destinations;
+    this.#offers = offers;
   }
 
   init () {
@@ -27,8 +27,8 @@ export default class NewPointPresenter {
       return;
     }
     this.#pointNewComponent = new EditFormView ({
-      pointDestinations: this.#destinationsModel.destinations,
-      pointOffers: this.#offersModel.offers,
+      pointDestinations: this.#destinations,
+      pointOffers: this.#offers,
       onFormSubmit: this.#onFormSubmit,
       onCloseClick: this.#onDeleteClick,
       onDeleteClick: this.#onDeleteClick,
@@ -53,8 +53,8 @@ export default class NewPointPresenter {
       UserAction.ADD_POINT,
       UpdateType.MINOR,
       {
-        id: crypto.randomUUID(),
         ...point,
+        id: crypto.randomUUID(),
       },
     );
     this.destroy();

@@ -21,7 +21,7 @@ const getTripTitle = (points, destinations) => {
   let endDestinationTitle = '';
   let tripTitle = 'Route not set.';
 
-  switch (points.events.length) {
+  switch (points.length) {
     case 0:
       break;
     case 1:

@@ -9,13 +9,13 @@ function createPointOffersList(offers) {
       `<li class="event__offer">
           <span class="event__offer-title">${he.encode(offer.title)}</span>
           +€&nbsp;
-          <span class="event__offers-price">${he.encode(offer.price)}</span>
+          <span class="event__offers-price">${offer.price}</span>
       </li>`).join(' ');
   return `<ul class="event__selected-offers">${offersList}</ul>`;
 }
 
 function createRoutePointTemplate ({point, destinations, offers}) {
-  const {basePrice,destination, dateFrom, dateTo, isFavorite, type} = point;
+  const {basePrice, destination, dateFrom, dateTo, isFavorite, type} = point;
   const destinationTitle = destinations.find((element) => element.id === destination).name;
   const selectedOffers = offers.find((offer) => offer.type === point.type).offers.filter((offer) => point.offers.includes(offer.id));
   const dateFromDateTimeAttribute = formatDate(dateFrom, 'YYYY-MM-DD');
@@ -86,8 +86,8 @@ export default class RoutePointView extends AbstractView {
   get template() {
     return createRoutePointTemplate({
       point: this.#point,
-      pointDestinations: this.#pointDestinations,
-      pointOffers: this.#pointOffers
+      destinations: this.#pointDestinations,
+      offers: this.#pointOffers
     });
   }
 

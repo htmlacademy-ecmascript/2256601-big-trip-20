@@ -8,16 +8,16 @@ export default class FilterPresenter {
   #pointsModel = null;
   #filterComponent = null;
 
-  constructor ({container, filterModel, pointsModel}) {
+  constructor ({container, filtersModel, pointsModel}) {
     this.#container = container;
-    this.#filtersModel = filterModel;
+    this.#filtersModel = filtersModel;
     this.#pointsModel = pointsModel;
 
     this.#pointsModel.addObserver(this.#onModelEventHandler);
     this.#filtersModel.addObserver(this.#onModelEventHandler);
   }
 
-  get getFilterData() {
+  get filters() {
     const points = this.#pointsModel.points;
     return Object.values(FilterType).map((type) => ({
       type,
@@ -26,7 +26,7 @@ export default class FilterPresenter {
   }
 
   init () {
-    const filters = this.getFilterData;
+    const filters = this.filters;
     const prevFilterComponent = this.#filterComponent;
 
     this.#filterComponent = new FiltersView({
