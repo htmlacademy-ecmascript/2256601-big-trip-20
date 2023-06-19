@@ -1,5 +1,5 @@
 import { getRandomValue } from '../utils/common.js';
-import { CITIES, DESCRIPTION } from './const.js';
+import { CITIES, DESCRIPTIONS } from './const.js';
 
 function generateDestination () {
   const city = getRandomValue(CITIES);
@@ -7,7 +7,7 @@ function generateDestination () {
   return {
     id: crypto.randomUUID(),
     name: city,
-    description: DESCRIPTION,
+    description: getRandomValue(DESCRIPTIONS),
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${crypto.randomUUID()}`,

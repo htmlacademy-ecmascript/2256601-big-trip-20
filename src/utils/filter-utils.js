@@ -1,5 +1,17 @@
+import dayjs from 'dayjs';
 import { FilterType } from '../const.js';
-import { isPointFuture, isPointPresent, isPointPast } from './point-utils.js';
+
+function isPointFuture(point) {
+  return dayjs(point.dateFrom).isAfter(dayjs());
+}
+
+function isPointPresent (point) {
+  return dayjs(point.dateFrom).isSame(dayjs());
+}
+
+function isPointPast(point) {
+  return dayjs(point.dateFrom).isBefore(dayjs());
+}
 
 const filter = {
   [FilterType.EVERYTHING] :(points) => [...points],

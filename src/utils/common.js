@@ -11,4 +11,44 @@ function getRandomValue (items) {
   return items[getRandomInteger(0, items.length - 1)];
 }
 
-export {isEscapeKey, getRandomInteger, getRandomValue};
+function capitalize (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+const getTripTitle = (points, destinations) => {
+  let firstDestinationTitle = 'Set the first waypoint.';
+  let middleDestinationTitle = 'Set the second waypoint.';
+  let endDestinationTitle = '';
+  let tripTitle = 'Route not set.';
+
+  switch (points.events.length) {
+    case 0:
+      break;
+    case 1:
+      firstDestinationTitle = destinations.find((el) => el.id === points[0].destination).name;
+
+      tripTitle = `${firstDestinationTitle} — Add an endpoint`;
+      break;
+    case 2:
+      firstDestinationTitle = destinations.find((el) => el.id === points[0].destination).name;
+      middleDestinationTitle = destinations.find((el) => el.id === points[1].destination).name;
+
+      tripTitle = `${firstDestinationTitle} — ${middleDestinationTitle}`;
+      break;
+    case 3:
+      firstDestinationTitle = destinations.find((el) => el.id === points[0].destination).name;
+      middleDestinationTitle = destinations.find((el) => el.id === points[1].destination).name;
+      endDestinationTitle = destinations.find((el) => el.id === points[2].destination).name;
+
+      tripTitle = `${firstDestinationTitle} — ${middleDestinationTitle} — ${endDestinationTitle}`;
+      break;
+    default:
+      firstDestinationTitle = destinations.find((el) => el.id === points[0].destination).name;
+      endDestinationTitle = destinations.find((el) => el.id === points[points.length - 1].destination).name;
+
+      tripTitle = `${firstDestinationTitle} — … — ${endDestinationTitle}`;
+  }
+  return tripTitle;
+};
+
+export {isEscapeKey, getRandomInteger, getRandomValue, capitalize, getTripTitle};

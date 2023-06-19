@@ -1,47 +1,52 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { formatStringToDateTime, formatStringToShortDate, formatStringToTime, getPointDuration } from '../utils/point-utils.js';
+import { formatDate, getFormattedDateDiff } from '../utils/date.js';
+import { capitalize } from '../utils/common.js';
 import he from 'he';
 
-function createRoutePointTemplate ({point, pointDestinations, pointOffers}) {
-  const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
-  const favoriteClass = isFavorite ? 'event__favorite-btn--active' : '';
-
-  function createOfferTemplate() {
-    return (
-      pointOffers.map((offer) => (
-        /*html*/`
-        <li class="event__offer">
-          <span class="event__offer-title">${offer.title}</span>
+function createPointOffersList(offers) {
+  const offersList = offers.length === 0 ? '' :
+    offers.map((offer) =>
+      `<li class="event__offer">
+          <span class="event__offer-title">${he.encode(offer.title)}</span>
           +€&nbsp;
-          <span class="event__offers-price">${offer.price}</span>
-          </li>`
-      )).join(' ')
-    );
-  }
-  return (
-    /*html*/`
-    <li class="trip-events__item">
+          <span class="event__offers-price">${he.encode(offer.price)}</span>
+      </li>`).join(' ');
+  return `<ul class="event__selected-offers">${offersList}</ul>`;
+}
+
+function createRoutePointTemplate ({point, destinations, offers}) {
+  const {basePrice,destination, dateFrom, dateTo, isFavorite, type} = point;
+  const destinationTitle = destinations.find((element) => element.id === destination).name;
+  const selectedOffers = offers.find((offer) => offer.type === point.type).offers.filter((offer) => point.offers.includes(offer.id));
+  const dateFromDateTimeAttribute = formatDate(dateFrom, 'YYYY-MM-DD');
+  const dateToDateTimeAttribute = formatDate(dateTo, 'YYYY-MM-DD');
+  const startTime = formatDate(dateFrom, 'hh:mm');
+  const finishTime = formatDate(dateTo, 'hh:mm');
+  const startDate = formatDate(dateFrom, 'MMM DD');
+  const favoriteClass = isFavorite ? 'event__favorite-btn--active' : '';
+  const pointDuration = getFormattedDateDiff(dateTo, dateFrom);
+
+  return (/*html*/
+    `<li class="trip-events__item">
       <div class="event">
-        <time class="event__date" datetime="${formatStringToDateTime(dateFrom)}">${formatStringToShortDate(dateFrom)}</time>
+        <time class="event__date" datetime="${dateFromDateTimeAttribute}">${startDate}</time>
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
-        <h3 class="event__title">${type} ${pointDestinations.name}</h3>
+        <h3 class="event__title">${capitalize(type)} ${he.encode(destinationTitle)}</h3>
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="${formatStringToTime(dateFrom)}">${formatStringToTime(dateFrom)}</time>
+            <time class="event__start-time" datetime="${dateFromDateTimeAttribute}">${startTime}</time>
             &mdash;
-            <time class="event__end-time" datetime="${formatStringToTime(dateTo)}">${formatStringToTime(dateTo)}</time>
+            <time class="event__end-time" datetime="${dateToDateTimeAttribute}">${finishTime}</time>
           </p>
-          <p class="event__duration">${getPointDuration(dateFrom, dateTo)}</p>
+          <p class="event__duration">${pointDuration}</p>
         </div>
         <p class="event__price">
-          &euro;&nbsp;<span class="event__price-value">${he.encode(basePrice.toString())}</span>
+          &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
-        <ul class="event__selected-offers">
-          ${createOfferTemplate()}
-        </ul>
+          ${createPointOffersList(selectedOffers)}
         <button class="event__favorite-btn ${favoriteClass}" type="button">
           <span class="visually-hidden">Add to favorite</span>
           <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
@@ -52,9 +57,7 @@ function createRoutePointTemplate ({point, pointDestinations, pointOffers}) {
           <span class="visually-hidden">Open event</span>
         </button>
       </div>
-    </li>
-    `
-  );
+    </li>`);
 }
 
 export default class RoutePointView extends AbstractView {

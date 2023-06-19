@@ -3,7 +3,7 @@ import { generateOffer } from '../mock/offer.js';
 import { generatePoint } from '../mock/point.js';
 import { DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, TYPES } from '../const.js';
 import { getRandomInteger, getRandomValue } from '../utils/common.js';
-
+import { getPointDates } from '../utils/date.js';
 export default class MockService {
   #destinations = [];
   #offers = [];
@@ -49,7 +49,8 @@ export default class MockService {
           .slice(0, getRandomInteger(0, OFFER_COUNT))
           .map ((offer) => offer.id)
         : [];
-      return generatePoint(type, destination.id, offerIds);
+      const dates = getPointDates();
+      return generatePoint(type, destination.id, offerIds, dates);
     });
   }
 }

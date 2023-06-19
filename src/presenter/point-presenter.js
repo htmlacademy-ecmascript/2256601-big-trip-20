@@ -3,7 +3,7 @@ import RoutePointView from '../view/route-point-view.js';
 import { Mode, UserAction, UpdateType} from '../const.js';
 import { remove, render, replace } from '../framework/render.js';
 import { isEscapeKey } from '../utils/common.js';
-import { isPatchUpdate } from '../utils/point-utils.js';
+import { isDateEqual } from '../utils/date.js';
 export default class PointPresenter {
   #container = null;
 
@@ -33,20 +33,23 @@ export default class PointPresenter {
 
     this.#pointComponent = new RoutePointView ({
       point: this.#point,
-      pointDestinations: this.#destinationsModel.getById(this.#point.destination),
-      pointOffers: this.#offersModel.getByType(this.#point.type).filter((offer) => this.#point.offers.includes(offer.id)),
+      pointDestinations: this.#destinationsModel,
+      pointOffers: this.#offersModel,
       onEditClick: this.#pointEditClickHandler,
       onFavoriteClick: this.#favoriteClickHandler,
     });
 
-    this.#pointEditComponent = new EditFormView ({
-      point: this.#point,
-      pointDestinations: this.#destinationsModel.destinations,
-      pointOffers: this.#offersModel.offers,
-      onCloseClick: this.#closeButtonClickHandler,
-      onFormSubmit: this.#formSubmitHandler,
-      onDeleteClick: this.#onDeleteClick,
-    });
+    if(this.#mode === Mode.EDITING) {
+      this.#pointEditComponent = new EditFormView ({
+        point: this.#point,
+        pointDestinations: this.#destinationsModel,
+        pointOffers: this.#offersModel,
+        onCloseClick: this.#closeButtonClickHandler,
+        onFormSubmit: this.#formSubmitHandler,
+        onDeleteClick: this.#onDeleteClick,
+        isNewPoint: false,
+      });
+    }
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
       render(this.#pointComponent, this.#container);
@@ -103,10 +106,11 @@ export default class PointPresenter {
   };
 
   #favoriteClickHandler = () => {
-    this.#onChangeData (UserAction.UPDATE_POINT, UpdateType.PATCH, {
-      ...this.#point,
-      isFavorite: !this.#point.isFavorite
-    });
+    this.#onChangeData (UserAction.UPDATE_POINT, UpdateType.PATCH,
+      {
+        ...this.#point,
+        isFavorite: !this.#point.isFavorite
+      });
   };
 
   #closeButtonClickHandler = () => {
@@ -115,7 +119,7 @@ export default class PointPresenter {
   };
 
   #formSubmitHandler = (update) => {
-    const updateType = isPatchUpdate(this.#point, update) ? UpdateType.PATCH : UpdateType.MINOR;
+    const updateType = isDateEqual(this.#point.dateFrom, update.dueDate) ? UpdateType.MINOR : UpdateType.PATCH;
     this.#onChangeData(
       UserAction.UPDATE_POINT,
       updateType,
@@ -124,11 +128,17 @@ export default class PointPresenter {
     this.#replaceFormToPoint();
   };
 
+  #removeForm() {
+    remove(this.#pointEditComponent);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
+  }
+
   #onDeleteClick = (point) => {
     this.#onChangeData(
       UserAction.DELETE_POINT,
       UpdateType.MINOR,
       point,
     );
+    this.#removeForm();
   };
 }

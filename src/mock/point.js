@@ -1,13 +1,13 @@
 import { getRandomInteger } from '../utils/common.js';
 import { Prise } from './const.js';
-import { getDate } from './utils-mock.js';
 
-function generatePoint (type, destinationId, offerIds) {
+
+function generatePoint (type, destinationId, offerIds, dates) {
   return {
     id: crypto.randomUUID(),
     basePrice: getRandomInteger(Prise.MIN, Prise.MAX),
-    dateFrom: getDate({next: false}),
-    dateTo: getDate({next: true}),
+    dateFrom: dates.startDate,
+    dateTo: dates.finishDate,
     destination: destinationId,
     isFavourite: !!getRandomInteger(0,1),
     offers: offerIds,

@@ -1,8 +1,4 @@
-import TripInfoView from './view/trip-info-view.js';
-import {render, RenderPosition} from './framework/render.js';
 import BoardPresenter from './presenter/board-presenter.js';
-import FilterPresenter from './presenter/filter-presenter.js';
-
 import MockService from './service/mock-service.js';
 import DestinationsModel from './model/destination-model.js';
 import OffersModel from './model/offers-model.js';
@@ -22,22 +18,14 @@ const offersModel = new OffersModel(mockService);
 const pointsModel = new PointsModel(mockService);
 const filtersModel = new FiltersModel();
 
-const filterPresenter = new FilterPresenter ({
-  container: filtersMainElement,
-  pointsModel,
-  filterModel: filtersModel,
-});
-
 const boardPresenter = new BoardPresenter({
   boardContainer : tripEventElement,
+  headerContainer: tripMainElement,
+  filterContainer: filtersMainElement,
   destinationsModel,
   offersModel,
   pointsModel,
   filterModel: filtersModel,
-  newPointButtonContainer: tripMainElement,
 });
 
-render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
-
-filterPresenter.init();
 boardPresenter.init();

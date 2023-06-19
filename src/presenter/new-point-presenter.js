@@ -1,9 +1,9 @@
 import { remove, render, RenderPosition } from '../framework/render.js';
 import EditFormView from '../view/edit-form-view.js';
-import { UserAction, UpdateType, EditType } from '../const.js';
+import { UserAction, UpdateType } from '../const.js';
 import { isEscapeKey } from '../utils/common.js';
 
-export default class AddNewPointPresenter {
+export default class NewPointPresenter {
   #container = null;
 
   #onDataChange = null;
@@ -12,7 +12,7 @@ export default class AddNewPointPresenter {
   #destinationsModel = null;
   #offersModel = null;
 
-  #pointEditComponent = null;
+  #pointNewComponent = null;
 
   constructor ({container, onDataChange, onDestroy, destinationsModel, offersModel}) {
     this.#container = container;
@@ -23,28 +23,28 @@ export default class AddNewPointPresenter {
   }
 
   init () {
-    if (this.#pointEditComponent !== null) {
+    if (this.#pointNewComponent !== null) {
       return;
     }
-    this.#pointEditComponent = new EditFormView ({
+    this.#pointNewComponent = new EditFormView ({
       pointDestinations: this.#destinationsModel.destinations,
       pointOffers: this.#offersModel.offers,
       onFormSubmit: this.#onFormSubmit,
-      onCloseClick: this.#onCloseClick,
+      onCloseClick: this.#onDeleteClick,
       onDeleteClick: this.#onDeleteClick,
-      type: EditType.CREATING
+      isNewPoint: true,
     });
-    render(this.#pointEditComponent, this.#container, RenderPosition.AFTERBEGIN);
+    render(this.#pointNewComponent, this.#container, RenderPosition.AFTERBEGIN);
     document.addEventListener('keydown', this.#escKeyDownHandler);
   }
 
   destroy() {
-    if (this.#pointEditComponent === null) {
+    if (this.#pointNewComponent === null) {
       return;
     }
     this.#onDestroy();
-    remove(this.#pointEditComponent);
-    this.#pointEditComponent = null;
+    remove(this.#pointNewComponent);
+    this.#pointNewComponent = null;
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   }
 
@@ -57,10 +57,6 @@ export default class AddNewPointPresenter {
         ...point,
       },
     );
-    this.destroy();
-  };
-
-  #onCloseClick = () => {
     this.destroy();
   };
 
