@@ -51,7 +51,8 @@ export default class PointsModel extends Observable {
   }
 
   getTotalPrice() {
-    return this.#points.reduce((totalPrice, point) => {
+    return this.#points.reduce((point) => {
+      let totalPrice = 0;
       totalPrice += point.basePrice;
       return totalPrice;
     }, 0);
