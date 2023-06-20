@@ -1,8 +1,4 @@
-const OFFER_COUNT = 5;
-const DESTINATION_COUNT = 5;
-const POINT_COUNT = 5;
-
-const TYPES = [
+const OFFER_TYPES = [
   'taxi',
   'bus',
   'train',
@@ -14,68 +10,82 @@ const TYPES = [
   'restaurant'
 ];
 
-const DEFAULT_TYPE = 'flight';
+const DESTINATIONS = [
+  'Chaomix',
+  'Geneve',
+  'Amsterdam',
+  'Helsinki',
+  'Oslo',
+  'Kopenhagen',
+  'Den Haag',
+  'Rotterdam',
+  'Saint Petersburg',
+  'Moscow',
+  'Sochi',
+  'Tokio'
+];
 
-const POINT_EMPTY = {
-  basePrise: 0,
-  dateFrom: null,
-  dateTo: null,
-  destination: null,
-  isFavourite: false,
-  offers: [],
-  type: DEFAULT_TYPE
-};
+const DESTINATIONS_DESCRIPTIONS = [
+  'The city of incredible beauty is somewhere very far from this place. And this place would have won the Terrible Hole of the Year competition, if the organizers of the competition had known about this hole.',
+  'The city is known for swarms of mutant mosquitoes that can pick up and carry a medium-sized child into the forests.',
+  'The resorts of this city were famous in the 18th century. Since then they have not been repaired.',
+  'Incredibly clean air could be here if it were not for emissions from a metallurgical plant.',
+  'Stephen King only writes about Derry in his novels because he doesn\'t know about this place.',
+];
 
-const DATE_FORMAT = 'DD/MM/YY HH:mm';
+const OFFERS = [
+  'Don\'t listen to chanson',
+  'Guide to bars',
+  'Non-swearing driver',
+  'Don\'t lose luggage during transportation',
+  'The correct answer to the question "From what district?"',
+  'Order a knife',
+  'Don\'t cut the kidney',
+  'Carry a bomb in your luggage',
+  'Steer the plane',
+];
 
 const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
   PRESENT: 'present',
-  PAST: 'past'
-};
-
-const Mode = {
-  DEFAULT: 'DEFAULT',
-  EDITING: 'EDITING'
+  PAST: 'past',
 };
 
 const SortType = {
-  DAY: 'day',
-  EVENT: 'event',
-  TIME: 'time',
-  PRICE: 'price',
-  OFFER: 'offer',
+  DEFAULT: 'default',
+  TIME_DOWN: 'time-down',
+  PRICE_DOWN: 'price-down',
 };
 
+const PriceRange = {
+  MIN: 200,
+  MAX: 9000,
+};
+
+const MOCKS_COUNT = 6;
+
 const UserAction = {
-  UPDATE_POINT: 'UPDATE_POINT',
-  ADD_POINT: 'ADD_POINT',
-  DELETE_POINT: 'DELETE_POINT',
+  UPDATE_EVENT: 'UPDATE_EVENT',
+  ADD_EVENT: 'ADD_EVENT',
+  DELETE_EVENT: 'DELETE_EVENT',
 };
 
 const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
-  MAJOR: 'MAJOR',
-};
-
-const EditType = {
-  EDITING: 'EDITING',
-  CREATING: 'CREATING'
+  MAJOR: 'MAJOR'
 };
 
 export {
-  OFFER_COUNT,
-  DESTINATION_COUNT,
-  POINT_COUNT, TYPES,
-  DEFAULT_TYPE,
-  POINT_EMPTY,
-  DATE_FORMAT,
+  OFFER_TYPES,
+  DESTINATIONS,
+  OFFERS,
+  DESTINATIONS_DESCRIPTIONS,
   FilterType,
-  Mode,
+  PriceRange,
+  MOCKS_COUNT,
   SortType,
   UserAction,
-  UpdateType,
-  EditType,
+  UpdateType
 };
