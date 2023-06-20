@@ -1,51 +1,74 @@
-const OFFER_COUNT = 5;
-const DESTINATION_COUNT = 5;
-const POINT_COUNT = 5;
-
-const TYPES = [
+const OFFER_TYPES = [
   'taxi',
   'bus',
   'train',
   'ship',
-  'drive',
   'flight',
+  'drive',
   'check-in',
   'sightseeing',
-  'restaurant'
+  'restaurant',
 ];
-
-const DEFAULT_TYPE = 'flight';
-
-const POINT_EMPTY = {
-  basePrise: 0,
-  dateFrom: null,
-  dateTo: null,
-  destination: null,
-  isFavourite: false,
-  offers: [],
-  type: DEFAULT_TYPE
-};
-
-const DATE_FORMAT = 'DD/MM/YY HH:mm';
 
 const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
   PRESENT: 'present',
-  PAST: 'past'
-};
-
-const Mode = {
-  DEFAULT: 'DEFAULT',
-  EDITING: 'EDITING'
+  PAST: 'past',
 };
 
 const SortType = {
-  DAY: 'day',
-  EVENT: 'event',
-  TIME: 'time',
-  PRICE: 'price',
-  OFFER: 'offer',
+  DEFAULT: 'default',
+  TIME_DOWN: 'time-down',
+  PRICE_DOWN: 'price-down',
 };
 
-export {OFFER_COUNT, DESTINATION_COUNT, POINT_COUNT, TYPES, DEFAULT_TYPE, POINT_EMPTY, DATE_FORMAT, FilterType, Mode, SortType};
+const UserAction = {
+  UPDATE_EVENT: 'UPDATE_EVENT',
+  ADD_EVENT: 'ADD_EVENT',
+  DELETE_EVENT: 'DELETE_EVENT',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+  INIT: 'INIT',
+  ERROR: 'ERROR'
+};
+
+const AUTHORIZATION = 'Basic 393wffdqw021d';
+
+const END_POINT = 'https://20.ecmascript.pages.academy/big-trip';
+
+const Method = {
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
+};
+
+const SourceUrl = {
+  EVENTS: 'points',
+  OFFERS: 'offers',
+  DESTINATIONS: 'destinations'
+};
+
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
+
+export {
+  OFFER_TYPES,
+  FilterType,
+  SortType,
+  UserAction,
+  UpdateType,
+  AUTHORIZATION,
+  END_POINT,
+  Method,
+  SourceUrl,
+  TimeLimit
+};

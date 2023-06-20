@@ -1,17 +1,20 @@
 export default class OffersModel {
   #service = null;
-  #offers = null;
+  #offers = [];
 
-  constructor (service) {
+  constructor(service) {
     this.#service = service;
-    this.#offers = this.#service.offers;
   }
 
   get offers() {
     return this.#offers;
   }
 
-  getByType(type) {
-    return this.#offers.find((offer) => offer.type === type).offers;
+  async init() {
+    try {
+      this.#offers = await this.#service.getOffers();
+    } catch(err) {
+      this.#offers = [];
+    }
   }
 }
