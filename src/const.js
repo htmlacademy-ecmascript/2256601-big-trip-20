@@ -37,7 +37,7 @@ const UpdateType = {
   ERROR: 'ERROR'
 };
 
-const AUTHORIZATION = 'Basic 393wffdqw021d';
+const AUTHORIZATION = 'Basic 403kdertq530a';
 
 const END_POINT = 'https://20.ecmascript.pages.academy/big-trip';
 

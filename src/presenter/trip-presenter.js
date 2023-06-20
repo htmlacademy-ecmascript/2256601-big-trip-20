@@ -95,7 +95,7 @@ export default class TripPresenter {
     if (updateType === UpdateType.INIT) {
       this.#newEventPresenter = new NewEventPresenter({
         destinations: this.destinations,
-        options: this.offers,
+        offers: this.offers,
         listComponent: this.#listComponent.element,
         onDataChange: this.#viewActionHandler,
         onDestroy: this.#newEventFormCloseHandler
@@ -197,7 +197,7 @@ export default class TripPresenter {
     const eventPresenter = new EventPresenter({
       listComponent: this.#listComponent.element,
       destinations: this.destinations,
-      options: this.offers,
+      offers: this.offers,
       onDataUpdate: this.#viewActionHandler,
       onModeChange: this.#modeChangeHandler,
     });

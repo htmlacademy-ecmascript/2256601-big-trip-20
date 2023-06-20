@@ -8,14 +8,14 @@ export default class NewEventPresenter {
   #handleDestroy = null;
 
   #destinations = null;
-  #options = null;
+  #offers = null;
 
   #newEventComponent = null;
 
-  constructor({ listComponent, destinations, options, onDataChange, onDestroy }) {
+  constructor({ listComponent, destinations, offers, onDataChange, onDestroy }) {
     this.#listComponent = listComponent;
     this.#destinations = destinations;
-    this.#options = options;
+    this.#offers = offers;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
   }
@@ -27,7 +27,7 @@ export default class NewEventPresenter {
 
     this.#newEventComponent = new EditEventView({
       destinations: this.#destinations,
-      options: this.#options,
+      options: this.#offers,
       isNewEvent: true,
       onFormSubmit: this.#formSubmitHandler,
       onDeleteClick: this.#deleteClickHandler,

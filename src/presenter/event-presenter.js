@@ -13,7 +13,7 @@ export default class EventPresenter {
 
   #event = null;
   #destinations = null;
-  #options = null;
+  #offers = null;
   #mode = Mode.DEFAULT;
 
   #eventComponent = null;
@@ -22,11 +22,11 @@ export default class EventPresenter {
   #handleDataUpdate = null;
   #handleModeChange = null;
 
-  constructor({ listComponent, destinations, options, onDataUpdate, onModeChange }) {
+  constructor({ listComponent, destinations, offers, onDataUpdate, onModeChange }) {
 
     this.#listComponent = listComponent;
     this.#destinations = destinations;
-    this.#options = options;
+    this.#offers = offers;
     this.#handleDataUpdate = onDataUpdate;
     this.#handleModeChange = onModeChange;
   }
@@ -39,7 +39,7 @@ export default class EventPresenter {
     this.#eventComponent = new EventView({
       event: this.#event,
       destinations: this.#destinations,
-      options: this.#options,
+      offers: this.#offers,
       onEditClick: this.#toggleOpenHandler,
       onFavoriteClick: this.#favoriteClickHandler,
     });
@@ -108,7 +108,7 @@ export default class EventPresenter {
       {
         event: this.#event,
         destinations: this.#destinations,
-        options: this.#options,
+        offers: this.#offers,
         isNewEvent: false,
         onFormSubmit: this.#formSubmitHandler,
         onToggleClick: this.#toggleCloseHandler,
