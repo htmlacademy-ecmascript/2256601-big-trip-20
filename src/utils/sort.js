@@ -10,4 +10,10 @@ function compareEventDuration(eventA, eventB) {
   return eventADuration - eventBDuration;
 }
 
-export { compareEventPrice, compareEventDuration };
+function compareEventDate(eventA, eventB) {
+  const dateA = new Date(eventA.dateFrom);
+  const dateB = new Date(eventB.dateFrom);
+  return dateA - dateB;
+}
+
+export { compareEventPrice, compareEventDuration, compareEventDate };

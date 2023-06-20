@@ -1,13 +1,25 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { formatDate } from '../utils/date.js';
 
-//Здесь нужна будет новая функция форматирования или их комбинация, чтобы не дублировать месяц, если месяц старта и месяц окончания совпадают
+function createTripDates(tripDates) {
+  let dateFrom = 'Not set';
+  let dateTo = 'Endpoint not set';
+
+  if (tripDates.startDate) {
+    dateFrom = formatDate(tripDates.startDate, 'MMM DD');
+  }
+  if (tripDates.finishDate) {
+    dateTo = formatDate(tripDates.finishDate, 'MMM DD');
+  }
+  return `${dateFrom}&nbsp;&mdash;&nbsp;${dateTo}`;
+}
+
 function createTripInfoTemplate(tripTitle, tripDates, totalPrice) {
   return (/*html*/
     `<section class="trip-main__trip-info  trip-info">
         <div class="trip-info__main">
           <h1 class="trip-info__title">${tripTitle}</h1>
-          <p class="trip-info__dates">${formatDate(tripDates.startDate, 'MMM DD')}&nbsp;&mdash;&nbsp;${formatDate(tripDates.finishDate, 'MMM DD')}</p>
+          <p class="trip-info__dates">${createTripDates(tripDates)}</p>
         </div>
         <p class="trip-info__cost">
           Total: &euro;&nbsp;<span class="trip-info__cost-value">${totalPrice}</span>

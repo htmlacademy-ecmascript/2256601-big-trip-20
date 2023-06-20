@@ -1,5 +1,5 @@
 import TripInfoView from '../view/trip-info-view.js';
-import { render } from '../framework/render';
+import { render, remove, RenderPosition } from '../framework/render';
 
 export default class HeaderPresenter {
   #headerContainer = null;
@@ -7,6 +7,8 @@ export default class HeaderPresenter {
   #tripTitle = null;
   #tripDates = null;
   #tripPrice = null;
+
+  #tripComponent = null;
 
   constructor({ headerContainer, tripTitle, tripDates, tripPrice }) {
     this.#headerContainer = headerContainer;
@@ -19,11 +21,16 @@ export default class HeaderPresenter {
     this.#renderTripInfo();
   }
 
+  destroy() {
+    remove(this.#tripComponent);
+  }
+
   #renderTripInfo() {
-    render(new TripInfoView({
+    this.#tripComponent = new TripInfoView({
       tripTitle: this.#tripTitle,
       tripDates: this.#tripDates,
       totalPrice: this.#tripPrice,
-    }), this.#headerContainer);
+    });
+    render(this.#tripComponent, this.#headerContainer, RenderPosition.AFTERBEGIN);
   }
 }

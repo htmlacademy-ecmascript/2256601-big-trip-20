@@ -64,6 +64,10 @@ export default class TripSortView extends AbstractView {
     this.element.addEventListener('click', this.#sortTypeChangeHandler);
   }
 
+  get template() {
+    return createTripSortTemplate(this.#currentSortType);
+  }
+
   #sortTypeChangeHandler = (evt) => {
     if (evt.target.tagName !== 'INPUT') {
       return;
@@ -72,8 +76,4 @@ export default class TripSortView extends AbstractView {
     evt.preventDefault();
     this.#handleSortTypeChange(evt.target.dataset.sortType);
   };
-
-  get template() {
-    return createTripSortTemplate(this.#currentSortType);
-  }
 }

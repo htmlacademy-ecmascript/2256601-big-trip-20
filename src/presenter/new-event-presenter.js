@@ -29,9 +29,9 @@ export default class NewEventPresenter {
       destinations: this.#destinations,
       options: this.#options,
       isNewEvent: true,
-      onFormSubmit: this.#handleFormSubmit,
-      onDeleteClick: this.#handleDeleteClick,
-      onToggleClick: this.#handleDeleteClick
+      onFormSubmit: this.#formSubmitHandler,
+      onDeleteClick: this.#deleteClickHandler,
+      onToggleClick: this.#deleteClickHandler
     });
 
     render(this.#newEventComponent, this.#listComponent, RenderPosition.AFTERBEGIN);
@@ -52,16 +52,34 @@ export default class NewEventPresenter {
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   }
 
-  #handleFormSubmit = (event) => {
+  setSaving() {
+    this.#newEventComponent.updateElement({
+      isDisabled: true,
+      isSaving: true,
+    });
+  }
+
+  setAborting() {
+    const resetFormState = () => {
+      this.#newEventComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#newEventComponent.shake(resetFormState);
+  }
+
+  #formSubmitHandler = (event) => {
     this.#handleDataChange(
       UserAction.ADD_EVENT,
       UpdateType.MINOR,
-      { ...event, id: crypto.randomUUID() },
+      event,
     );
-    this.destroy();
   };
 
-  #handleDeleteClick = () => {
+  #deleteClickHandler = () => {
     this.destroy();
   };
 

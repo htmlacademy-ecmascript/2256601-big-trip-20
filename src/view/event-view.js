@@ -4,14 +4,18 @@ import { capitalizeFirstLetter } from '../utils/common.js';
 import { formatDate, getFormattedDateDiff } from '../utils/date.js';
 
 function createEventViewOffersList(offers) {
-  const offersList = offers.length === 0 ? '' :
-    offers.map((offer) =>
+  if (offers.length === 0) {
+    return '';
+  } else {
+    const offersList = offers.map((offer) =>
       `<li class="event__offer">
             <span class="event__offer-title">${he.encode(offer.title)}</span>
             &plus;&euro;&nbsp;
             <span class="event__offer-price">${offer.price}</span>
       </li>`).join('');
-  return `<ul class="event__selected-offers">${offersList}</ul>`;
+    return `<h4 class="visually-hidden">Offers:</h4>
+          <ul class="event__selected-offers">${offersList}</ul>`;
+  }
 }
 
 function createEventViewTemplate(event, destinations, options) {
@@ -21,8 +25,8 @@ function createEventViewTemplate(event, destinations, options) {
   const dayDateTimeAttribute = formatDate(dateFrom, 'YYYY-MM-DD');
   const dateFromDateTimeAttribute = formatDate(dateFrom, 'YYYY-MM-DD');
   const dateToDateTimeAttribute = formatDate(dateTo, 'YYYY-MM-DD');
-  const startTime = formatDate(dateFrom, 'hh:mm');
-  const finishTime = formatDate(dateTo, 'hh:mm');
+  const startTime = formatDate(dateFrom, 'HH:mm');
+  const finishTime = formatDate(dateTo, 'HH:mm');
   const startDate = formatDate(dateFrom, 'MMM DD');
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn event__favorite-btn--active'
@@ -48,7 +52,6 @@ function createEventViewTemplate(event, destinations, options) {
           <p class="event__price">
             &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
           </p>
-          <h4 class="visually-hidden">Offers:</h4>
             ${createEventViewOffersList(selectedOptions)}
           <button class="${favoriteClassName}" type="button">
             <span class="visually-hidden">Add to favorite</span>
@@ -92,7 +95,6 @@ export default class EventView extends AbstractView {
     this.#handleEditClick();
   };
 
-  //Не совсем понимаю, должна ли быть эта логика во View, а если нет, то как её передать. То есть я понимаю, что можно параметрами, но выглядит как-то избыточно. А ещё в макете фокус на кнопках неудачно оформлен.
   #favoriteClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleFavoriteClick();
