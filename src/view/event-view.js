@@ -18,10 +18,10 @@ function createEventViewOffersList(offers) {
   }
 }
 
-function createEventViewTemplate(event, destinations, offers) {
+function createEventViewTemplate(event, destinations, options) {
   const { basePrice, destination, dateFrom, dateTo, type, isFavorite } = event;
   const destinationTitle = destinations.find((point) => point.id === destination).name;
-  const selectedOffers = offers.find((offer) => offer.type === event.type).offers.filter((offer) => event.offers.includes(offer.id));
+  const selectedOptions = options.find((option) => option.type === event.type).offers.filter((offer) => event.offers.includes(offer.id));
   const dayDateTimeAttribute = formatDate(dateFrom, 'YYYY-MM-DD');
   const dateFromDateTimeAttribute = formatDate(dateFrom, 'YYYY-MM-DD');
   const dateToDateTimeAttribute = formatDate(dateTo, 'YYYY-MM-DD');
@@ -52,7 +52,7 @@ function createEventViewTemplate(event, destinations, offers) {
           <p class="event__price">
             &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
           </p>
-            ${createEventViewOffersList(selectedOffers)}
+            ${createEventViewOffersList(selectedOptions)}
           <button class="${favoriteClassName}" type="button">
             <span class="visually-hidden">Add to favorite</span>
             <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
@@ -69,15 +69,15 @@ function createEventViewTemplate(event, destinations, offers) {
 export default class EventView extends AbstractView {
   #event = null;
   #destinations = null;
-  #offers = null;
+  #options = null;
   #handleEditClick = null;
   #handleFavoriteClick = null;
 
-  constructor({ event, destinations, offers, onEditClick, onFavoriteClick }) {
+  constructor({ event, destinations, options, onEditClick, onFavoriteClick }) {
     super();
     this.#event = event;
     this.#destinations = destinations;
-    this.#offers = offers;
+    this.#options = options;
     this.#handleEditClick = onEditClick;
     this.#handleFavoriteClick = onFavoriteClick;
 
@@ -87,7 +87,7 @@ export default class EventView extends AbstractView {
   }
 
   get template() {
-    return createEventViewTemplate(this.#event, this.#destinations, this.#offers);
+    return createEventViewTemplate(this.#event, this.#destinations, this.#options);
   }
 
   #editClickHandler = (evt) => {
