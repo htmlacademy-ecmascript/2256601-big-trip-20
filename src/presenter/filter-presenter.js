@@ -1,6 +1,6 @@
 import { render, replace, remove } from '../framework/render.js';
 import TripFiltersView from '../view/trip-filters-view.js';
-import { filter } from '../utils/filter.js';
+import { getEventsByFilterType } from '../utils/filter.js';
 import { FilterType, UpdateType } from '../const.js';
 
 export default class FilterPresenter {
@@ -24,7 +24,7 @@ export default class FilterPresenter {
 
     return Object.values(FilterType).map((type) => ({
       type,
-      hasEvents: !!filter[type](events).length
+      hasEvents: !!getEventsByFilterType(type, events).length,//!!filter[type](events).length
     }));
   }
 

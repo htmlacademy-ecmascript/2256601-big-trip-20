@@ -2,7 +2,7 @@ import { remove, render } from '../framework/render.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 import { SortType, UserAction, UpdateType, FilterType, TimeLimit } from '../const.js';
 import { compareEventPrice, compareEventDuration, compareEventDate } from '../utils/sort.js';
-import { filter } from '../utils/filter.js';
+import { getEventsByFilterType } from '../utils/filter.js';
 import LoadingView from '../view/loading-view.js';
 import TripSortView from '../view/trip-sort-view';
 import EmptyListView from '../view/empty-list-view.js';
@@ -57,7 +57,7 @@ export default class TripPresenter {
   get events() {
     this.#filterType = this.#filtersModel.filters;
     const events = this.#tripModel.events;
-    const filteredEvents = filter[this.#filterType](events);
+    const filteredEvents = getEventsByFilterType(this.#filterType, events);//filter[this.#filterType](events);
 
     switch (this.#currentSortType) {
       case SortType.DEFAULT:
