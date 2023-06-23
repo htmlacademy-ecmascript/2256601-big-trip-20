@@ -6,11 +6,20 @@ dayjs.extend(isSameOrBefore);
 
 import { FilterType } from '../const';
 
-const filter = {
-  [FilterType.EVERYTHING]: (events) => [...events],
-  [FilterType.FUTURE]: (events) => events.filter((event) => dayjs(event.dateFrom).isAfter(dayjs())),
-  [FilterType.PRESENT]: (events) => events.filter((event) => dayjs(event.dateFrom).isSameOrBefore(dayjs()) && dayjs(event.dateTo).isSameOrAfter(dayjs())),
-  [FilterType.PAST]: (events) => events.filter((event) => dayjs(event.dateTo).isBefore(dayjs())),
-};
+function getEventsByFilterType(type, events) {
+  if (type === FilterType.EVERYTHING) {
+    return [...events];
+  }
+  return events.filter((event) => {
+    switch (type) {
+      case FilterType.FUTURE:
+        return dayjs(event.dateFrom).isAfter(dayjs());
+      case FilterType.PRESENT:
+        return dayjs(event.dateFrom).isSameOrBefore(dayjs()) && dayjs(event.dateTo).isSameOrAfter(dayjs());
+      case FilterType.PAST:
+        return dayjs(event.dateTo).isBefore(dayjs());
+    }
+  });
+}
 
-export { filter };
+export { getEventsByFilterType };

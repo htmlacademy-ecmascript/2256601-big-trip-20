@@ -118,9 +118,8 @@ function createCancelButtonText(isNewEvent, isDeleting) {
     return 'Cancel';
   } else if (isDeleting) {
     return 'Deleting...';
-  } else {
-    return 'Delete';
   }
+  return 'Delete';
 }
 
 function createEditEventTemplate({ state, destinations, options, isNewEvent }) {
