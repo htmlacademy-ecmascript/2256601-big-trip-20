@@ -57,8 +57,7 @@ export default class TripPresenter {
   get events() {
     this.#filterType = this.#filtersModel.filters;
     const events = this.#tripModel.events;
-    const filteredEvents = getEventsByFilterType(this.#filterType, events);//filter[this.#filterType](events);
-
+    const filteredEvents = getEventsByFilterType(this.#filterType, events);
     switch (this.#currentSortType) {
       case SortType.DEFAULT:
         return filteredEvents.sort(compareEventDate);

@@ -24,7 +24,7 @@ export default class FilterPresenter {
 
     return Object.values(FilterType).map((type) => ({
       type,
-      hasEvents: !!getEventsByFilterType(type, events).length,//!!filter[type](events).length
+      hasEvents: !!getEventsByFilterType(type, events).length,
     }));
   }
 
